@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1602151962 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\main.c
+1602153116 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"mascotas.h"
 
-1602152128 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\mascotas.c
+1602153041 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\mascotas.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

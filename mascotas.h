@@ -34,5 +34,5 @@ void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz)
 
 int borrarMascotaDelListado(eMascota *list, int tamList, int id);
 int buscarLugar(eMascota *list, int tamList);
-
+void cargarMascota(eMascota *list, int tamList);
 #endif // MASCOTAS_H_INCLUDED

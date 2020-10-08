@@ -170,11 +170,22 @@ void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz)
 
 }
 
+void cargarMascota(eMascota *list, int tamList)
+{
+
+}
 int buscarLugar(eMascota *list, int tamList)
 {
     int indice = -1;
 
     for(int i=0; i<tamList; i++)
+    {
+        if(list[i].isEmpty==1)
+        {
+            return i;
+        }
+    }
 
     return indice;
 }
+
