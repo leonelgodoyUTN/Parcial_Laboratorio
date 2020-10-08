@@ -8,7 +8,7 @@ typedef struct
     char nombre[51];
     int edad;
     char sexo;
-    char tipo; //{gato ,perro o raro}
+    char tipo[10]; //{gato ,perro o raro}
     int isEmpty;
     int idRaza;//FK a eRaza
 } eMascota;
@@ -30,14 +30,13 @@ void inicializarArrayMascotas(eMascota *list, int tamList)
 }
 
 
-void hardcodearMascotas(eMascota* list, int tamList)
+void hardcodearMascotas(eMascota* list)
 {
-    //datos a hardcodear
+    int tamList=5;
     char nombres[5][51]= {"Rufo", "Firulais", "Cata", "Anush", "Paul"};
     int edades[5]= {3,5,7,2,1};
     char sexos[5]= {'m', 'm', 'f', 'f', 'm'};
-    char tipos[5]= {'p', 'p', 'g', 'g', 'p'};
-    int isEmpty[5]= {0,0,0,0,0};
+    char tipos[5][10]= {"perro", "perro", "gato", "gato", "perro"};
     int idRazas[5]= {11, 13, 10, 12, 13};
 
     for(int i=0; i<tamList; i++)
@@ -46,9 +45,9 @@ void hardcodearMascotas(eMascota* list, int tamList)
         strcpy(list[i].nombre, nombres[i]);
         list[i].edad = edades[i];
         list[i].sexo = sexos[i];
-        list[i].tipo = tipos[i];
+        strcpy(list[i].tipo, tipos[i]);
         list[i].idRaza = idRazas[i];
-        list[i].isEmpty = isEmpty[i];
+        list[i].isEmpty = 0;
     }
 }
 
@@ -87,7 +86,7 @@ void mostrarMascotaConRaza(eMascota x, eRaza razaRecibida)
 {
     if(x.isEmpty==0)
     {
-        printf("\n%8s  %d    %c    %c  %10s  %10s", x.nombre, x.edad, x.sexo, x.tipo, razaRecibida.descripcion, razaRecibida.paisDeOrigen);
+        printf("\n%8s  %d    %c    %s  %10s  %10s", x.nombre, x.edad, x.sexo, x.tipo, razaRecibida.descripcion, razaRecibida.paisDeOrigen);
     }
 }
 
@@ -169,4 +168,13 @@ void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz)
         }
     }
 
+}
+
+int buscarLugar(eMascota *list, int tamList)
+{
+    int indice = -1;
+
+    for(int i=0; i<tamList; i++)
+
+    return indice;
 }

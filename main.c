@@ -24,6 +24,19 @@ funciones y no realizar dos for.
 ******************************** 2da parte
 #Borrado lógico de una mascota del listado
 #-Se debe mostrar un listado de mascotas ordenadas por país de origen.
+
+******************************** 3era parte
+#-Alta de mascota, se pueden cargar todos los datos y se debe mostrar el listado de
+razas disponibles, teniendo en cuenta que ya tengo 5 mascotas cargadas y que el
+máximo es 10
+#-Se debe mostrar un listado de RAZAS con las mascotas que pertenecen a esa
+raza
+******************************** 4ta parte
+#Modificación de una mascotas(todo menos el id).
+#Menú de opciones
+#-Alta de RAZA (20 razas maximo)
+#-Se debe mostrar el país de origen que tenga más mascotas en nuestra
+veterinaria.
 */
 
 
@@ -42,12 +55,16 @@ int main()
     //inicializo el array de eMascota
     inicializarArrayMascotas(listado, TAM);
     //hardcodeo arrays de mascotas y de razas
-    hardcodearMascotas(listado, TAM);
+    hardcodearMascotas(listado);
     hardcodearRazas(listadoRazas, TAMRAZAS);
 
     //muestro el listado original
     mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
 
+
+    //******************************** 2da parte
+    //Borrado lógico de una mascota del listado
+    //Se debe mostrar un listado de mascotas ordenadas por país de origen.
     /*    printf("\n***Se borrara una mascota para probar funcion de borrado\n");
     borrarMascotaDelListado(listado, TAM, listado[0].id);
     system("pause");

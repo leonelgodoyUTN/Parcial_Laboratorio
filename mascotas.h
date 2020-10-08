@@ -7,7 +7,7 @@ typedef struct
     char nombre[51];
     int edad;
     char sexo;
-    char tipo; //{gato ,perro o raro}
+    char tipo[10]; //{gato ,perro o raro}
     int isEmpty;
     int idRaza;//FK a eRaza
 } eMascota;
@@ -22,7 +22,7 @@ typedef struct
 
 
 void inicializarArrayMascotas(eMascota *list, int tamList);
-void hardcodearMascotas(eMascota* list, int tamList);
+void hardcodearMascotas(eMascota* list);
 void hardcodearRazas(eRaza *list, int tamList);
 
 void mostrarListadoCompleto(eMascota* list, int tamList, eRaza listaRazas[], int tamRaz);
@@ -33,6 +33,6 @@ eRaza buscarRaza(int id, eRaza *list, int tamRaz);
 void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz);
 
 int borrarMascotaDelListado(eMascota *list, int tamList, int id);
-
+int buscarLugar(eMascota *list, int tamList);
 
 #endif // MASCOTAS_H_INCLUDED
