@@ -1,9 +1,7 @@
 /* Autor: Leonel Godoy
-
-Soy un veterinario que necesita atender a las mascotas de sus clientes, para tener el
-control vamos a tener un sistema ....el sistema debe realizar las siguientes
-funcionalidades.(los datos deben ser hardcodeados).
-******************************** 1era parte
+    1B
+8/10/2020
+**Parcial Laboratorio I-  1era parte
 
 #-Tenemos un listado de mascotas(nombre,edad,sexo{f o m},tipo{gato ,perro o raro})
 tenemos por ahora 5 mascotas ​pero tengo lugar para 10.
@@ -51,9 +49,16 @@ typedef struct
 
 void inicializarArrayMascotas(eMascota *list, int tamList);
 void hardcodearMascotas(eMascota* list, int tamList);
-void mostrarListadoCompleto(eMascota* list, int tamList, eRaza listaRazas[], int tamRaz);
-void mostrarMascota(eMascota, eRaza *list, int tamRaz);
 void hardcodearRazas(eRaza *list, int tamList);
+
+void mostrarListadoCompleto(eMascota* list, int tamList, eRaza listaRazas[], int tamRaz);
+//void mostrarMascota(eMascota, eRaza *list, int tamRaz);//fuera de uso, version vieja
+void mostrarMascotaConRaza(eMascota x, eRaza razaRecibida);
+eRaza buscarRaza(int id, eRaza *list, int tamRaz);
+
+void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz);
+
+int borrarMascotaDelListado(eMascota *list, int tamList, int id);
 
 int main()
 {
@@ -85,9 +90,9 @@ void hardcodearMascotas(eMascota* list, int tamList)
 {
     //datos a hardcodear
     char nombres[5][51]= {"Rufo", "Firulais", "Cata", "Anush", "Paul"};
-    int edades[5]= {3,5,7,2};
+    int edades[5]= {3,5,7,2,1};
     char sexos[5]= {'m', 'm', 'f', 'f', 'm'};
-    char tipos[5]= {'p', 'p', 'c', 'c', 'p'};
+    char tipos[5]= {'p', 'p', 'g', 'g', 'p'};
     int isEmpty[5]= {0,0,0,0,0};
     int idRazas[5]= {11, 13, 10, 12, 13};
 
@@ -103,35 +108,8 @@ void hardcodearMascotas(eMascota* list, int tamList)
     }
 }
 
-void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz)
-{
-    printf("\nNombre   Edad Sexo Tipo       Raza   PaisDeOrigen");
-    for(int i=0; i<tamList; i++)
-    {
-        if(list[i].isEmpty==0)
-        {
-            mostrarMascota(list[i], listaRazas, tamRaz);
-        }
-    }
-}
-
-void mostrarMascota(eMascota x, eRaza *list, int tamRaz)
-{
-    printf("\n%8s  %d    %c    %c   ", x.nombre, x.edad, x.sexo, x.tipo);
-    for(int i=0; i<tamRaz; i++)
-    {
-        if(x.idRaza == list[i].id)
-        {
-            printf("%10s", list[i].descripcion);
-            printf("    %10s", list[i].paisDeOrigen);
-        }
-
-    }
-}
-
 void hardcodearRazas(eRaza *list, int tamList)
 {
-    //datos a hardcodear
     int ids[4]= {10,11,12,13};
     char descripciones[4][51]= {"siames", "doberman", "persa", "pastor belga"};
     char tamanios[4]= {'c', 'g', 'm', 'g'}; //chico ,mediano o grande,
@@ -145,3 +123,90 @@ void hardcodearRazas(eRaza *list, int tamList)
         strcpy(list[i].paisDeOrigen, paisesDeOrigen[i]);
     }
 }
+
+void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz)
+{
+    eRaza aux;
+    printf("\nNombre   Edad Sexo Tipo       Raza   PaisDeOrigen");
+
+    for(int i=0; i<tamList; i++)
+    {
+        aux = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
+        mostrarMascotaConRaza(list[i], aux);
+    }
+}
+
+void mostrarMascotaConRaza(eMascota x, eRaza razaRecibida)
+{
+    if(x.isEmpty==0)
+    {
+        printf("\n%8s  %d    %c    %c  %10s  %10s", x.nombre, x.edad, x.sexo, x.tipo, razaRecibida.descripcion, razaRecibida.paisDeOrigen);
+    }
+}
+
+//fuera de uso, version vieja
+/*
+void mostrarMascota(eMascota x, eRaza *list, int tamRaz)
+{
+    if(x.isEmpty==0) //lo muestro
+    {
+        printf("\n%8s  %d    %c    %c   ", x.nombre, x.edad, x.sexo, x.tipo);
+        for(int i=0; i<tamRaz; i++)
+        {
+            if(x.idRaza == list[i].id)
+            {
+                printf("%10s", list[i].descripcion);
+                printf("    %10s", list[i].paisDeOrigen);
+            }
+
+        }
+    }
+
+}*/
+
+eRaza buscarRaza(int id, eRaza *list, int tamRaz)
+{
+    eRaza aux;
+    for(int i=0; i<tamRaz; i++)
+    {
+        if(id == list[i].id)
+        {
+            aux= list[i];
+            break;
+        }
+    }
+    return aux;
+}
+
+
+
+/** \brief hace la baja logica de una mascota por ID
+ *
+ * \param *list listado de mascotas
+ * \param tamList tamanio
+ * \param id id de la mascota a eliminar
+ * \return 0 si se realizo con exito la baja, -1 si no
+ *
+ */
+
+int borrarMascotaDelListado(eMascota *list, int tamList, int id)
+{
+    for(int i=0; i<tamList; i++)
+    {
+        if(id == list[i].id)
+        {
+            list[i].isEmpty=1;
+            return 0;
+        }
+    }
+    return -1;
+}
+
+/*
+void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz)
+{
+    eMascota auxiliar;
+    for(int i=; i<)
+
+}
+*/
