@@ -4,6 +4,7 @@ Soy un veterinario que necesita atender a las mascotas de sus clientes, para ten
 control vamos a tener un sistema ....el sistema debe realizar las siguientes
 funcionalidades.(los datos deben ser hardcodeados).
 ******************************** 1era parte
+
 #-Tenemos un listado de mascotas(nombre,edad,sexo{f o m},tipo{gato ,perro o raro})
 tenemos por ahora 5 mascotas ​pero tengo lugar para 10.
 #Tenemos un listado de razas(descripción,tamaño{chico ,mediano o grande},país de
@@ -50,8 +51,8 @@ typedef struct
 
 void inicializarArrayMascotas(eMascota *list, int tamList);
 void hardcodearMascotas(eMascota* list, int tamList);
-void mostrarListadoCompleto(eMascota* list, int tamList);
-void mostrarMascota(eMascota);
+void mostrarListadoCompleto(eMascota* list, int tamList, eRaza listaRazas[], int tamRaz);
+void mostrarMascota(eMascota, eRaza *list, int tamRaz);
 void hardcodearRazas(eRaza *list, int tamList);
 
 int main()
@@ -66,7 +67,7 @@ int main()
     hardcodearRazas(listadoRazas, TAMRAZAS);
 
     //muestro el listado
-    mostrarListadoCompleto(listado, TAM);
+    mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
 
     return 0;
 }
@@ -87,8 +88,9 @@ void hardcodearMascotas(eMascota* list, int tamList)
     int edades[5]= {3,5,7,2};
     char sexos[5]= {'m', 'm', 'f', 'f', 'm'};
     char tipos[5]= {'p', 'p', 'c', 'c', 'p'};
-    int isEmpty[5]={0,0,0,0,0};
-    int idRazas[5]={11, 13, 10, 12, 13};
+    int isEmpty[5]= {0,0,0,0,0};
+    int idRazas[5]= {11, 13, 10, 12, 13};
+
     for(int i=0; i<tamList; i++)
     {
         list[i].id = i+1000;
@@ -96,25 +98,35 @@ void hardcodearMascotas(eMascota* list, int tamList)
         list[i].edad = edades[i];
         list[i].sexo = sexos[i];
         list[i].tipo = tipos[i];
+        list[i].idRaza = idRazas[i];
         list[i].isEmpty = isEmpty[i];
     }
 }
 
-void mostrarListadoCompleto(eMascota* list, int tamList)
+void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz)
 {
-    printf("\nNombre   Edad Sexo Tipo");
+    printf("\nNombre   Edad Sexo Tipo       Raza   PaisDeOrigen");
     for(int i=0; i<tamList; i++)
     {
         if(list[i].isEmpty==0)
         {
-            mostrarMascota(list[i]);
+            mostrarMascota(list[i], listaRazas, tamRaz);
         }
     }
 }
 
-void mostrarMascota(eMascota x)
+void mostrarMascota(eMascota x, eRaza *list, int tamRaz)
 {
-    printf("\n%8s  %d    %c    %c", x.nombre, x.edad, x.sexo, x.tipo);
+    printf("\n%8s  %d    %c    %c   ", x.nombre, x.edad, x.sexo, x.tipo);
+    for(int i=0; i<tamRaz; i++)
+    {
+        if(x.idRaza == list[i].id)
+        {
+            printf("%10s", list[i].descripcion);
+            printf("    %10s", list[i].paisDeOrigen);
+        }
+
+    }
 }
 
 void hardcodearRazas(eRaza *list, int tamList)
