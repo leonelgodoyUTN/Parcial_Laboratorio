@@ -20,6 +20,10 @@ c- los demás datos de estas 5 mascotas deben ser hardcodeados por el alumno.
 *el harcodeo debe estar en funciones separadas .
 *la función de listar mascota debe estar modularizada, ósea debe llamar a otras
 funciones y no realizar dos for.
+
+******************************** 2da parte
+#Borrado lógico de una mascota del listado
+#-Se debe mostrar un listado de mascotas ordenadas por país de origen.
 */
 
 
@@ -71,8 +75,22 @@ int main()
     hardcodearMascotas(listado, TAM);
     hardcodearRazas(listadoRazas, TAMRAZAS);
 
-    //muestro el listado
+    //muestro el listado original
     mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
+
+    /*    printf("\n***Se borrara una mascota para probar funcion de borrado\n");
+    borrarMascotaDelListado(listado, TAM, listado[0].id);
+    system("pause");
+    printf("\n***Nuevo listado");
+    mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
+    */
+
+    printf("\n***Se aplicara un ordenamiento de burbujeo***");
+    system("pause");
+    ordenarPorPais(listado, TAM, listadoRazas, TAMRAZAS);
+    printf("\n***Ordenado***");
+    mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
+
 
     return 0;
 }
@@ -202,11 +220,26 @@ int borrarMascotaDelListado(eMascota *list, int tamList, int id)
     return -1;
 }
 
-/*
 void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz)
 {
-    eMascota auxiliar;
-    for(int i=; i<)
+    eMascota aux;
+    eRaza auxRazaI;
+    eRaza auxRazaJ;
+
+    for(int i=0;i<tamList-1;i++)
+    {
+        auxRazaI = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
+        for(int j=i+1; j<tamList;j++)
+        {
+            auxRazaJ= buscarRaza(list[j].idRaza, listaRazas, tamRaz);
+
+            if(strcmp(auxRazaI.descripcion, auxRazaJ.descripcion)>0)
+            {
+                aux = list[i];
+                list[i] = list[j];
+                list[j] = aux;
+            }
+        }
+    }
 
 }
-*/
