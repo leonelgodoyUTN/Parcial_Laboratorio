@@ -22,17 +22,18 @@ typedef struct
 
 
 void inicializarArrayMascotas(eMascota *list, int tamList);
-void hardcodearMascotas(eMascota* list);
-void hardcodearRazas(eRaza *list, int tamList);
-
-void mostrarListadoCompleto(eMascota* list, int tamList, eRaza listaRazas[], int tamRaz);
-//void mostrarMascota(eMascota, eRaza *list, int tamRaz);//fuera de uso, version vieja
-void mostrarMascotaConRaza(eMascota x, eRaza razaRecibida);
+void hardcodearMascotas(eMascota* list, int tamHardcodeo);
+void hardcodearRazas(eRaza *list, int cantidad);
 eRaza buscarRaza(int id, eRaza *list, int tamRaz);
-
+void mostrarMascota(eMascota x);
+void mostrarMascotaConRaza(eMascota x, eRaza razaRecibida);
+void mostrarListadoCompleto(eMascota* list, int tamList, eRaza listaRazas[], int tamRaz);
+void borrarMascotaDelListado(eMascota *list, int tamList);
+int buscarIndiceMascotaPorId(eMascota *list, int tamList, int idABuscar);
 void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz);
 
-int borrarMascotaDelListado(eMascota *list, int tamList, int id);
+
 int buscarLugar(eMascota *list, int tamList);
-void cargarMascota(eMascota *list, int tamList);
+void cargarMascota(eMascota *list, int tamList, int* nextId);
+int menu();
 #endif // MASCOTAS_H_INCLUDED

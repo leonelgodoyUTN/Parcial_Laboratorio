@@ -44,8 +44,10 @@ veterinaria.
 #include <stdlib.h>
 #include <string.h>
 #include "mascotas.h"
+#include "utn.h"
 #define TAM 10
 #define TAMRAZAS 4
+#define TAMHARDCODEO 5
 
 int main()
 {
@@ -55,11 +57,16 @@ int main()
     //inicializo el array de eMascota
     inicializarArrayMascotas(listado, TAM);
     //hardcodeo arrays de mascotas y de razas
-    hardcodearMascotas(listado);
     hardcodearRazas(listadoRazas, TAMRAZAS);
+    hardcodearMascotas(listado, TAMHARDCODEO);
+    int proximoId= 1000+TAMHARDCODEO;//LINEA IMPORTANTISIMA
+
+    menu();
+    cargarMascota(listado, TAM, &proximoId);
+
 
     //muestro el listado original
-    mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
+    //mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
 
 
     //******************************** 2da parte
