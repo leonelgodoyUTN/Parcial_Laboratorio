@@ -18,8 +18,9 @@ typedef struct
 {
     int id;//PK
     char descripcion[51];
-    char tamanio; //chico ,mediano o grande,
+    char tamanio[10]; //chico ,mediano o grande,
     char paisDeOrigen[51];
+    int isEmpty;
 } eRaza;
 
 
@@ -31,11 +32,18 @@ void inicializarArrayMascotas(eMascota *list, int tamList)
     }
 }
 
+void inicializarArrayRazas(eRaza *list, int tamRaz)
+{
+    for(int i=0;i<tamRaz;i++)
+    {
+        list[i].isEmpty=1;
+    }
+}
 /** \brief carga un array de eMascota hasta con 5 elementos
  * \param list puntero a array de eMascota
  * \param tamHardcodeo cuantos elementois se van a cargar. MAXIMO 5
  */
-void hardcodearMascotas(eMascota* list, int tamHardcodeo)
+void hardcodearMascotas(eMascota* list, int tamHardcodeo, int*proximoId)
 {
     char nombres[5][51]= {"Rufo", "Firulais", "Cata", "Anush", "Paul"};
     int edades[5]= {3,5,7,2,1};
@@ -46,13 +54,14 @@ void hardcodearMascotas(eMascota* list, int tamHardcodeo)
     {
         for(int i=0; i<tamHardcodeo; i++)
         {
-            list[i].id = i+1000;
+            list[i].id = *proximoId;
             strcpy(list[i].nombre, nombres[i]);
             list[i].edad = edades[i];
             list[i].sexo = sexos[i];
             strcpy(list[i].tipo, tipos[i]);
             list[i].idRaza = idRazas[i];
             list[i].isEmpty = 0;
+            *proximoId = *proximoId+1;
         }
     }
     else
@@ -67,20 +76,22 @@ void hardcodearMascotas(eMascota* list, int tamHardcodeo)
  * \param  puntero a array de eRaza
  * \param  cantidad derazas a hardcodear. MAXIMO 5
 */
-void hardcodearRazas(eRaza *list, int cantidad)
+void hardcodearRazas(eRaza *list, int cantidad, int*proximoIdRaza)
 {
-    int ids[5]= {10,11,12,13,14};
+    //int ids[5]= {10,11,12,13,14};
     char descripciones[5][51]= {"siames", "doberman", "persa", "pastor belga", "OTRO"};
-    char tamanios[5]= {'c', 'g', 'm', 'g', 'x'}; //chico ,mediano o grande,
+    char tamanios[5][10]= {"chico", "grande", "mediano", "grande", "NA"}; //chico ,mediano o grande,
     char paisesDeOrigen[5][51]= {"Tailandia", "Alemania", "Persia", "Belgica", "N/A"};
     if(cantidad<6)
     {
         for(int i=0; i<cantidad; i++)
         {
-            list[i].id= ids[i];
+            list[i].id= *proximoIdRaza;
             strcpy(list[i].descripcion, descripciones[i]);
-            list[i].tamanio = tamanios[i];
+            strcpy(list[i].tamanio, tamanios[i]);
             strcpy(list[i].paisDeOrigen, paisesDeOrigen[i]);
+            list[i].isEmpty=0;
+            *proximoIdRaza= *proximoIdRaza+1;
         }
     }
     else
@@ -305,30 +316,82 @@ void cargarMascota(eMascota *list, int tamList, int* nextId)
 int menu()
 {
     int opcion;
-    int respuesta;
+    system("cls");
+    opcion = utn_getNumero(&opcion, "\n**Menu de opciones***\n1-Cargar mascota\n2-Borrar mascota\n3-Modificar mascota\n4-Listado completo\n5-Ordenar por paisesn\n6-Listar razas\n7-Agregar raza\n9-SALIR\n", "\nERROR, ingrese una opcion valida\n", 1, 9,3);
+    return opcion;
+}
 
-    do
+
+void listarRazas(eRaza *list, int tamRaz)
+{
+    if(list!=NULL && tamRaz>0)
     {
-        respuesta= utn_getNumero(&opcion, "\n**Menu de opciones***\n\n1-Alta\n2-Baja\n3-Modificar registro\n4-Listar\n5-Ordenar por nombre\n6-Ordenar por ID\n9-SALIR\n", "\nERROR, ingrese una opcion valida\n", 1, 9,3);
-        if(!respuesta)
+        printf("\n***Listado de razas cargadas");
+        printf("\nID Descripcion PaisOrigen Tamanio");
+        for(int i=0; i<tamRaz;i++)
         {
-            switch(opcion)
+            if(list[i].isEmpty==0)
             {
-            case 1:
-                printf("\nEntro al case 1");
-
-                break;
-
-            case 2:
-                printf("\nEntro al case 2");
-                break;
-                //etc
-
+                printf("\n%d %s %s %s", list[i].id, list[i].descripcion, list[i].paisDeOrigen, list[i].tamanio);
             }
+
         }
     }
-    while(opcion != 9); //OPCION SALIDA
-
-
-    return 0;
 }
+
+void listarRazasConSusMascotas(eRaza listaRazas[], int tamRaz, eMascota listaMascotas[], int tamMascotas)
+{
+    printf("\n***Se listara cada raza y las mascotas de cada una");
+    for(int i=0;i<tamRaz;i++)
+    {
+        if(listaRazas[i].isEmpty==0)
+        {
+            printf("\nRaza: %s Id: %d***\n", listaRazas[i].descripcion, listaRazas[i].id);
+
+        }
+    }
+
+}
+
+
+int buscarLugarLibreRaza(eRaza *list, int tamRaz)
+{
+    int indice=-1;
+
+    for(int i=0;i<tamRaz;i++)
+    {
+        if(list[i].isEmpty)
+        {
+            indice=i;
+            break;
+        }
+    }
+    return indice;
+}
+void agregarRaza(eRaza *list, int tamRaz, int*nextId)
+{
+    eRaza aux;
+    int indiceLibre;
+    indiceLibre=buscarLugarLibreRaza(list, tamRaz);
+    if(indiceLibre!=-1)
+    {
+        //cargo raza
+        aux.id = *nextId;
+        utn_getTexto(aux.descripcion, sizeof(aux.descripcion), "\nNombre de la raza: ", "\nERROR\n");
+        utn_getTexto(aux.tamanio, sizeof(aux.tamanio), "\nIndique tamanio de esta raza (chico, mediano, grande, N/A):\n", "\nERROR\n");
+        utn_getTexto(aux.paisDeOrigen, sizeof(aux.paisDeOrigen), "\nIndique pais de origen: ", "\nERROR\n");
+        aux.isEmpty=0;
+
+        list[indiceLibre]=aux;
+
+        *nextId= *nextId+1;
+        printf("\n**Se realizo la carga de la nuev raza");
+        system("pause");
+    }
+    else
+    {
+        printf("\n***No hay lugar para cargar mas razas\n");
+        system("pause");
+    }
+}
+

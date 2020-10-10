@@ -1,19 +1,19 @@
 # depslib dependency file v1.0
-1602277805 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\main.c
+1602288837 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"mascotas.h"
 	"utn.h"
 
-1602277792 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\mascotas.c
+1602288623 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\mascotas.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"utn.h"
 	"utn.c"
 
-1602281375 c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\mascotas.h
+1602288994 c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\mascotas.h
 
 1602181633 source:c:\users\leonel\desktop\areadetrabajo\parcial_laboratorio\utn.c
 	<stdio.h>
