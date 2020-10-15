@@ -2,55 +2,134 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utn.h"
-#include "utn.c"
+//el burbujeo no esta listo
+
 typedef struct
 {
     int id;//PK
     char nombre[51];
     int edad;
     char sexo;
-    char tipo[10]; //{gato ,perro o raro}
+    char especie[10];//Especie es mas apropiado que "tipo" //{gato ,perro o raro}
     int isEmpty;
     int idRaza;//FK a eRaza
 } eMascota;
+
 
 typedef struct
 {
     int id;//PK
     char descripcion[51];
     char tamanio[10]; //chico ,mediano o grande,
-    char paisDeOrigen[51];
+    //char paisDeOrigen[51];
+    int idPaisDeOrigen;//FK a pais
     int isEmpty;
 } eRaza;
 
+typedef struct
+{
+    int id;
+    char nombrePais[51];
+    char continente[51];
+    int codigoTelefonico;
+    int isEmpty;
+}ePais;
+
+void saludar()
+{
+    printf("\nHola Carolas!\n");
+}
 
 void inicializarArrayMascotas(eMascota *list, int tamList)
 {
     for(int i=0; i<tamList; i++)
     {
-        list[i].isEmpty=1;
+        list[i].isEmpty = 1;
     }
 }
 
 void inicializarArrayRazas(eRaza *list, int tamRaz)
 {
-    for(int i=0;i<tamRaz;i++)
+    for(int i=0; i<tamRaz; i++)
     {
-        list[i].isEmpty=1;
+        list[i].isEmpty = 1;
     }
 }
+
+void inicializarArrayPaises(ePais *list, int tamPais)
+{
+    for(int i=0; i<tamPais; i++)
+    {
+        list[i].isEmpty= 1;
+    }
+}
+
+
+
+/** \brief hardcodea un array de eRaza
+ * \param  puntero a array de eRaza
+ * \param  cantidad derazas a hardcodear. MAXIMO 5
+*/
+void hardcodearRazas(eRaza *list, int tamHardcodeo, int*proximoIdRaza)
+{
+    //int ids[5]= {10,11,12,13,14};
+    char descripciones[7][51]= {"siames", "doberman", "persa", "pastor belga", "OTRO", "dogo arg", "pastor aleman"};
+    char tamanios[7][10]= {"chico", "grande", "mediano", "grande", "NA", "mediano", "grande"}; //chico ,mediano o grande,
+    int idPaisesDeOrigen[7]= {103, 101, 104, 102, 100, 100, 102};
+    if(tamHardcodeo<6)
+    {
+        for(int i=0; i<tamHardcodeo; i++)
+        {
+            list[i].id= *proximoIdRaza;
+            strcpy(list[i].descripcion, descripciones[i]);
+            strcpy(list[i].tamanio, tamanios[i]);
+            list[i].idPaisDeOrigen = idPaisesDeOrigen[i];
+            list[i].isEmpty=0;
+            *proximoIdRaza= *proximoIdRaza+1;
+        }
+    }
+    else
+    {
+        printf("\n***ERROR al hardcodear razas bro");
+        system("pause");
+    }
+
+}
+
+void hardcodearPaises(ePais* list, int tamHardcodeo, int*proximoIdPais)
+{
+    char nombresPaises[5][51]= {"Argentina", "Alemania", "Belgica", "Tailandia", "Persia"};
+    char continentes[5][51]= {"Sudamerica", "Europa", "Europa", "Asia", "Asia"};
+    int codigosTelefonicos[5]= {54, 49, 32, 66, 98};
+    if(tamHardcodeo<= 5)
+    {
+         for(int i=0; i<tamHardcodeo; i++)
+        {
+
+            list[i].codigoTelefonico = codigosTelefonicos[i];
+            strcpy(list[i].continente, continentes[i]);
+            strcpy(list[i].nombrePais, nombresPaises[i]);
+            list[i].id = *proximoIdPais;
+            list[i].isEmpty=0;
+            *proximoIdPais = *proximoIdPais+1;
+
+        }
+    }
+
+}
+
 /** \brief carga un array de eMascota hasta con 5 elementos
  * \param list puntero a array de eMascota
  * \param tamHardcodeo cuantos elementois se van a cargar. MAXIMO 5
  */
 void hardcodearMascotas(eMascota* list, int tamHardcodeo, int*proximoId)
 {
-    char nombres[5][51]= {"Rufo", "Firulais", "Cata", "Anush", "Paul"};
-    int edades[5]= {3,5,7,2,1};
-    char sexos[5]= {'m', 'm', 'f', 'f', 'm'};
-    char tipos[5][10]= {"perro", "perro", "gato", "gato", "perro"};
-    int idRazas[5]= {11, 13, 10, 12, 13};
-    if(tamHardcodeo<=5)
+    char nombres[7][51]= {"Rufo", "Firulais", "Cata", "Anush", "Paul", "Tyson", "Negro"};
+    int edades[7]= {3,5,7,2,1, 2, 5};
+    char sexos[7]= {'m', 'm', 'f', 'f', 'm', 'm', 'm'};
+    char especies[7][10]= {"perro", "perro", "gato", "gato", "perro", "perro", "perro"};
+    int idRazas[7]= {11, 13, 10, 12, 13, 15, 16};
+    if(tamHardcodeo<=7)
     {
         for(int i=0; i<tamHardcodeo; i++)
         {
@@ -58,7 +137,7 @@ void hardcodearMascotas(eMascota* list, int tamHardcodeo, int*proximoId)
             strcpy(list[i].nombre, nombres[i]);
             list[i].edad = edades[i];
             list[i].sexo = sexos[i];
-            strcpy(list[i].tipo, tipos[i]);
+            strcpy(list[i].especie, especies[i]);
             list[i].idRaza = idRazas[i];
             list[i].isEmpty = 0;
             *proximoId = *proximoId+1;
@@ -67,36 +146,6 @@ void hardcodearMascotas(eMascota* list, int tamHardcodeo, int*proximoId)
     else
     {
         printf("\n***Error al hardcodear Mascotas\n");
-        system("pause");
-    }
-
-}
-
-/** \brief hardcodea un array de eRaza
- * \param  puntero a array de eRaza
- * \param  cantidad derazas a hardcodear. MAXIMO 5
-*/
-void hardcodearRazas(eRaza *list, int cantidad, int*proximoIdRaza)
-{
-    //int ids[5]= {10,11,12,13,14};
-    char descripciones[5][51]= {"siames", "doberman", "persa", "pastor belga", "OTRO"};
-    char tamanios[5][10]= {"chico", "grande", "mediano", "grande", "NA"}; //chico ,mediano o grande,
-    char paisesDeOrigen[5][51]= {"Tailandia", "Alemania", "Persia", "Belgica", "N/A"};
-    if(cantidad<6)
-    {
-        for(int i=0; i<cantidad; i++)
-        {
-            list[i].id= *proximoIdRaza;
-            strcpy(list[i].descripcion, descripciones[i]);
-            strcpy(list[i].tamanio, tamanios[i]);
-            strcpy(list[i].paisDeOrigen, paisesDeOrigen[i]);
-            list[i].isEmpty=0;
-            *proximoIdRaza= *proximoIdRaza+1;
-        }
-    }
-    else
-    {
-        printf("\n***ERROR al hardcodear razas bro");
         system("pause");
     }
 
@@ -124,32 +173,36 @@ eRaza buscarRaza(int id, eRaza *list, int tamRaz)
     }
     if(!exito)
     {
-        printf("\n***Error al buscar raza;");
-        system("pause");
+        strcpy(aux.descripcion, "Error 143");
+        aux.id=-1;
+        aux.isEmpty=1;
+        aux.idPaisDeOrigen= -1;
+        strcpy(aux.tamanio, "Error 143");
     }
     return aux;
 }
 
-/** \brief recibe eMascota y eRaza, y los muestra*/
-void mostrarMascotaConRaza(eMascota x, eRaza razaRecibida)
+ePais buscarPais(int id, ePais lista[], int tamPais)
 {
-    if(x.isEmpty==0)
+    ePais aux;
+    int exito=0;
+    for(int i=0; i<tamPais; i++)
     {
-        printf("\n%d %8s  %d    %c    %s  %15s  %10s",x.id, x.nombre, x.edad, x.sexo, x.tipo, razaRecibida.descripcion, razaRecibida.paisDeOrigen);
+        if(id == lista[i].id)
+        {
+            aux= lista[i];
+            exito=1;
+            break;
+        }
     }
-}
-
-/** \brief muestra array de eMascota recibido */
-void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz)
-{
-    eRaza aux;
-    printf("\nID   Nombre   Edad Sexo Tipo          Raza       PaisDeOrigen");
-
-    for(int i=0; i<tamList; i++)
+    if(!exito)
     {
-        aux = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
-        mostrarMascotaConRaza(list[i], aux);
+        strcpy(aux.nombrePais, "Error 143");
+        aux.id=-1;
+        aux.isEmpty=1;
+        aux.codigoTelefonico= -1;
     }
+    return aux;
 }
 
 
@@ -157,14 +210,43 @@ void mostrarMascota(eMascota x)
 {
     if(x.isEmpty==0)
     {
-        printf("\n%d %8s  %d    %c    %s ",x.id, x.nombre, x.edad, x.sexo, x.tipo);
+        printf("\n%d %8s  %d    %c    %s ",x.id, x.nombre, x.edad, x.sexo, x.especie);
     }
 }
+
+/** \brief recibe eMascota y eRaza, y los muestra*/
+void mostrarMascotaConRazaYPais(eMascota x, eRaza razaRecibida)
+{
+    if(x.isEmpty==0)
+    {
+        printf("\n%d %8s  %d    %c    %s  %15s ",x.id, x.nombre, x.edad, x.sexo, x.especie, razaRecibida.descripcion);
+    }
+}
+
+
+/** \brief muestra array de eMascota recibido */
+void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz)
+{
+    eRaza aux;
+    printf("\nID   Nombre   Edad Sexo Especie       Raza       PaisDeOrigen");
+
+    for(int i=0; i<tamList; i++)
+    {
+        if(list[i].isEmpty==0)
+        {
+            aux = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
+            mostrarMascotaConRazaYPais(list[i], aux);
+
+        }
+
+    }
+}
+
 int buscarIndiceMascotaPorId(eMascota *list, int tamList, int idABuscar)
 {
     int indice =-1;
 
-    for(int i=0;i<tamList;i++)
+    for(int i=0; i<tamList; i++)
     {
         if(idABuscar == list[i].id)
         {
@@ -173,7 +255,6 @@ int buscarIndiceMascotaPorId(eMascota *list, int tamList, int idABuscar)
     }
     return indice;
 }
-
 
 
 /** \brief Hace la baja logica de una mascota (campo isEmpty=1).
@@ -191,19 +272,20 @@ void borrarMascotaDelListado(eMascota *list, int tamList, int minId, int maxId)
     printf("\n**Funcion Borrar Marcota\n");
     int idABorrar;
     utn_getNumero(&idABorrar, "\nIngrese el id de la mascota a borrar: ",
-                              "\nERROR ", minId, maxId, 3);
+                  "\nERROR ", minId, maxId, 3);
     int indiceABorrar;
     indiceABorrar = buscarIndiceMascotaPorId(list, tamList, idABorrar);
 
     char confirmacion;
-    if(indiceABorrar==-1)
+    if(indiceABorrar==-1)//es decir si el ID no fue valido
     {
         printf("\nNo se encontro el id de mascota...");
         system("pause");
     }
-    else
+    else    //si el ID si fue valido...
     {
         mostrarMascota(list[indiceABorrar]);
+
         printf("\n***Confirma la baja? s/n: ");
         scanf("%c",&confirmacion);
         if(confirmacion=='s')
@@ -216,30 +298,13 @@ void borrarMascotaDelListado(eMascota *list, int tamList, int minId, int maxId)
 
 }
 
-void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz)
-{
-    eMascota aux;
-    eRaza auxRazaI;
-    eRaza auxRazaJ;
-
-    for(int i=0; i<tamList-1; i++)
-    {
-        auxRazaI = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
-        for(int j=i+1; j<tamList; j++)
-        {
-            auxRazaJ= buscarRaza(list[j].idRaza, listaRazas, tamRaz);
-
-            if(strcmp(auxRazaI.paisDeOrigen, auxRazaJ.paisDeOrigen)>0)
-            {
-                aux = list[i];
-                list[i] = list[j];
-                list[j] = aux;
-            }
-        }
-    }
-
-}
-
+/** \brief retorna el primer indicelibre en un array de eMascota
+ *
+ * \param *list puntero a array de eMascota
+ * \param tamList tamanio del array
+ * \return retorna el primer indice libre que encuentra or -1 si el array esta lleno
+ *
+ */
 
 int buscarLugar(eMascota *list, int tamList)
 {
@@ -254,111 +319,120 @@ int buscarLugar(eMascota *list, int tamList)
     }
     return indice;
 }
+
 //Importante diferenciar entre ID e indice. Ambos son unicos, pero el id ES primaryKey y NO es la posicion en el array
 void cargarMascota(eMascota *list, int tamList, int* nextId)
 {
     int indiceLibre;
     indiceLibre = buscarLugar(list, tamList);
+    eMascota auxMascota;
+
     //printf("\nIndice libre en i:%d", indiceLibre);
     // *nextId= *nextId+1;
     // printf("\nnextId: %d", *nextId);*
     //list[indiceLibre].id = *nextId;
     //printf("\nnextId: %d", *nextId);
     //printf("\nlist[indiceLibre].id:%d", list[indiceLibre].id);
-    if(indiceLibre!=-1)
+    if(indiceLibre==-1)//es decir, si no hay lugar disponible en el array
+    {
+        printf("\n**SISTEMA COMPLETO");
+        system("pause");
+    }
+    else//pido los datos
     {
 
-        utn_getTexto(list[indiceLibre].nombre, 51, "\ningrese nombre: ", "\nERROR\n");
-
-        utn_getNumero(&list[indiceLibre].edad, "\ningrese edad: ", "\nERROR\n", 0, 99, 3);
-
-        utn_getChar(&list[indiceLibre].sexo, "\nindique sexo m/f: ", "\nERROR", 'f', 'm', 3);
-
-        utn_getTexto(list[indiceLibre].tipo, 10, "\nIndique uno de los siguientes: 'perro' , 'gato' o 'raro'\n", "\nERROR\n");
-
-        list[indiceLibre].isEmpty = 0;
+        int cargoNombre = utn_getTexto(auxMascota.nombre, 51, "\ningrese nombre: ", "\nERROR\n");
+        int cargoEdad = utn_getNumero(&auxMascota.edad, "\ningrese edad: ", "\nERROR\n", 0, 99, 3);
+        int cargoSexo = utn_getChar(&auxMascota.sexo, "\nindique sexo m/f: ", "\nERROR", 'f', 'm', 3);
+        int cargoEspecie = utn_getTexto(auxMascota.especie, 10, "\nIndique uno de los siguientes: 'perro' , 'gato' o 'raro'\n", "\nERROR\n");
+        int cargoRaza = utn_getNumero(&auxMascota.idRaza, "\nIngrese id de raza 10-13: ", "\nERROR\n", 10, 20, 3);
 
 
-        list[indiceLibre].id = *nextId;
-
-        // int idRaza
-        if( strcmp(list[indiceLibre].tipo, "perro")==0 || strcmp(list[indiceLibre].tipo, "gato")==0)
+        if(cargoNombre==0 && cargoEdad==0 && cargoSexo==0 && cargoEspecie==0 && cargoRaza==0)
         {
-            utn_getNumero(&list[indiceLibre].idRaza, "\nIngrese id de raza 10-13: ", "\nERROR\n", 10, 13, 3);
+            list[indiceLibre] = auxMascota;
+            list[indiceLibre].isEmpty = 0;
+            list[indiceLibre].id = *nextId;
+            *nextId=*nextId+1;
         }
-
-
-        *nextId=*nextId+1;
+        else
+        {
+            printf("\n***Hubo error a la hora de cargar algun dato\n");
+            system("pause");
+        }
     }
-
-
 }
-/*void cargarMascota(eMascota *list, int tamList, int* nextId)
-{
-    int indiceLibre;
-    indiceLibre = buscarLugar(list, tamList);
-
-    if(indiceLibre!=-1)
-    {
-        list[indiceLibre].id = nextId;
-        utn_getTexto(list[indiceLibre].nombre, 51, "\ningrese nombre: ", "\nERROR\n", 3);
-        fflush(stdin);
-        utn_getNumero(&list[indiceLibre].edad, "\ningrese edad: ", "\nERROR\n", 0, 99, 3);
-        utn_getChar(&list[indiceLibre].sexo, "\nindique sexo m/f: ", "\nERROR\n", 'f', 'm', 3);
-        utn_getTexto(list[indiceLibre].tipo, 10, "\nIndique uno de los siguientes: 'perro' , 'gato' o 'raro'\n", "\nERROR\n", 3);
-        list[indiceLibre].isEmpty = 0;
-        // int idRaza
-        utn_getNumero(&list[indiceLibre].idRaza, "\nIngrese id de raza 10-13: ", "\nERROR\n", 10, 13, 3);
-        *nextId++;
-    }
-}*/
 
 int menu()
 {
     int opcion;
     system("cls");
-    opcion = utn_getNumero(&opcion, "\n**Menu de opciones***\n1-Cargar mascota\n2-Borrar mascota\n3-Modificar mascota\n4-Listado completo\n5-Ordenar por paisesn\n6-Listar razas\n7-Agregar raza\n9-SALIR\n", "\nERROR, ingrese una opcion valida\n", 1, 9,3);
+    utn_getNumero(&opcion, "\n**Menu de opciones***\n1-Cargar mascota\n2-Borrar mascota\n3-Modificar mascota\n4-Listado completo\n5-Ordenar por pais de origen\n6-Listar razas con sus mascotoas\n7-Agregar raza\n9-SALIR\n", "\nERROR, ingrese una opcion valida\n", 1, 9,3);
     return opcion;
 }
 
 
-void listarRazas(eRaza *list, int tamRaz)
+void listarRazas(eRaza *list, int tamRaz, ePais listaPaises[], int tamPais)
 {
+    ePais auxPais;
     if(list!=NULL && tamRaz>0)
     {
         printf("\n***Listado de razas cargadas");
         printf("\nID Descripcion PaisOrigen Tamanio");
-        for(int i=0; i<tamRaz;i++)
+        for(int i=0; i<tamRaz; i++)
         {
-            if(list[i].isEmpty==0)
+            if(list[i].isEmpty==0)//si hay un estructura de raza cargada busco su pais
             {
-                printf("\n%d %s %s %s", list[i].id, list[i].descripcion, list[i].paisDeOrigen, list[i].tamanio);
+                auxPais = buscarPais(list[i].idPaisDeOrigen, listaPaises, tamPais);
+                printf("\n%d %s %s %s", list[i].id, list[i].descripcion, auxPais.nombrePais, list[i].tamanio);
             }
 
         }
     }
+    printf("\n***fin de informe\n");
+    system("pause");
 }
+
+
 
 void listarRazasConSusMascotas(eRaza listaRazas[], int tamRaz, eMascota listaMascotas[], int tamMascotas)
 {
-    printf("\n***Se listara cada raza y las mascotas de cada una");
-    for(int i=0;i<tamRaz;i++)
-    {
-        if(listaRazas[i].isEmpty==0)
-        {
-            printf("\nRaza: %s Id: %d***\n", listaRazas[i].descripcion, listaRazas[i].id);
 
+    if(listaRazas!= NULL && tamRaz>0 && listaMascotas != NULL && tamMascotas>0)
+    {
+        printf("\n***Se listara cada raza y las mascotas de cada una***");
+
+        for(int i=0; i<tamRaz; i++)//recorro arrar de razas
+        {
+            if(listaRazas[i].isEmpty==0)//si hay una estructura eRaza la muestro
+            {
+
+                printf("\n\n**Raza: %s IdRaza: %d Tamanio: %s ",  listaRazas[i].descripcion,listaRazas[i].id, listaRazas[i].tamanio);
+                //debo mostrar todos los eMascotas cuyo idconcuerde
+                for(int j=0; j<tamMascotas; j++)//para eso recorrere listaMascotas
+                {
+                    if(listaMascotas[j].idRaza == listaRazas[i].id)
+                    {
+
+                        mostrarMascota(listaMascotas[j]);
+                    }
+                }
+            }
         }
     }
-
+    system("pause");
 }
 
-
+/** \brief busca un lugar libre en un array de eRaza
+ * \param puntero a lista
+ * \param  tamanio del array
+ * \return -1 error o el primer indice libre que encuentre
+ */
 int buscarLugarLibreRaza(eRaza *list, int tamRaz)
 {
     int indice=-1;
 
-    for(int i=0;i<tamRaz;i++)
+    for(int i=0; i<tamRaz; i++)
     {
         if(list[i].isEmpty)
         {
@@ -368,25 +442,61 @@ int buscarLugarLibreRaza(eRaza *list, int tamRaz)
     }
     return indice;
 }
-void agregarRaza(eRaza *list, int tamRaz, int*nextId)
+
+//retorna el id de pais o -1 en caso de error
+int elegirPais(ePais listaPaises[], int tamPaises)
 {
-    eRaza aux;
+    int retorno=-1;
+    int opcion;
+    int i;
+    printf("\nElija un pais por numero");
+    for(i=0; i<tamPaises;i++)
+    {
+        if(listaPaises[i].isEmpty==0)//muestro todos los paises con isEmpty=0
+        {
+            printf("\n%d  Pais: %s", i, listaPaises[i].nombrePais);
+            //retorno=0;
+        }
+    }//luego le pido al usuario que elija opcion
+    system("pause");
+    printf("\nOpcion: ");
+    utn_getNumero(&opcion, "\nElija un pais por numero : ", "\nERROR", 0, i,3);
+    if(opcion >=0 && opcion<=i)
+    {
+        retorno = listaPaises[opcion].id;
+    }
+
+    return retorno;
+
+}
+
+void agregarRaza(eRaza *list, int tamRaz, int*nextId,ePais listaPaises[], int tamPaises)
+{
+    eRaza auxRaza;
+
     int indiceLibre;
     indiceLibre=buscarLugarLibreRaza(list, tamRaz);
-    if(indiceLibre!=-1)
+
+    if(indiceLibre!=-1)//si hay lugar disponible
     {
         //cargo raza
-        aux.id = *nextId;
-        utn_getTexto(aux.descripcion, sizeof(aux.descripcion), "\nNombre de la raza: ", "\nERROR\n");
-        utn_getTexto(aux.tamanio, sizeof(aux.tamanio), "\nIndique tamanio de esta raza (chico, mediano, grande, N/A):\n", "\nERROR\n");
-        utn_getTexto(aux.paisDeOrigen, sizeof(aux.paisDeOrigen), "\nIndique pais de origen: ", "\nERROR\n");
-        aux.isEmpty=0;
 
-        list[indiceLibre]=aux;
+        int cargoDescripcion = utn_getTexto(auxRaza.descripcion, sizeof(auxRaza.descripcion), "\nNombre de la raza: ", "\nERROR\n");
+        int cargoTamanio = utn_getTexto(auxRaza.tamanio, sizeof(auxRaza.tamanio), "\nIndique tamanio de esta raza (chico, mediano, grande, N/A):\n", "\nERROR\n");
+        auxRaza.idPaisDeOrigen = elegirPais(listaPaises, tamPaises);
 
-        *nextId= *nextId+1;
-        printf("\n**Se realizo la carga de la nuev raza");
-        system("pause");
+        //si todo lo anterior fue bien, el sistema hace lo ultimo:
+        //copiar el auxiliar al array, y ponerle campos id y isEmpty
+        if(cargoDescripcion == 0 && cargoTamanio == 0 && auxRaza.idPaisDeOrigen!=-1)
+        {
+            auxRaza.id = *nextId;
+            auxRaza.isEmpty=0;
+            list[indiceLibre]=auxRaza;
+            *nextId= *nextId+1;
+
+            printf("\n**Se realizo la carga de la nueva raza");
+            system("pause");
+        }
     }
     else
     {
@@ -395,3 +505,108 @@ void agregarRaza(eRaza *list, int tamRaz, int*nextId)
     }
 }
 
+
+/** \brief recibe un array de mascotas y uno de razas,  ordena el array de mascotas por pais de origen(alfabeticamente)
+ * \param puntero a array de eMascotas
+ * \param tamanio array mascotas
+ * \param array de eRazas
+ * \param tamanio array razas
+ */
+void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPaises)
+{
+    eMascota aux;
+    ePais auxPaisI;
+    ePais auxPaisJ;
+
+    for(int i=0; i<tamList-1; i++)
+    {
+       // auxRazaI = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
+        auxPaisI = buscarPais(list[i].idRaza, listaPaises, tamPaises);
+
+        for(int j=i+1; j<tamList; j++)
+        {
+           // auxRazaJ= buscarRaza(list[j].idRaza, listaRazas, tamRaz);
+           auxPaisJ= buscarPais(list[j].idRaza, listaPaises, tamPaises);
+
+            if(strcmp(auxPaisI.nombrePais, auxPaisJ.nombrePais)>0)
+            {
+                aux = list[i];
+                list[i] = list[j];
+                list[j] = aux;
+            }
+        }
+    }
+    printf("\n\n***Se ordenaron las mascotas por pais de origen alfabeticamente**");
+    system("pause");
+    /*
+    eMascota aux;
+    eRaza auxRazaI;
+    eRaza auxRazaJ;
+    ePais auxPaisI;
+    ePais auxPaisJ;
+
+    for(int i=0; i<tamList-1; i++)
+    {
+        auxRazaI = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
+
+        for(int j=i+1; j<tamList; j++)
+        {
+            auxRazaJ= buscarRaza(list[j].idRaza, listaRazas, tamRaz);
+
+            if(strcmp(auxRazaI.paisDeOrigen, auxRazaJ.paisDeOrigen)>0)
+            {
+                aux = list[i];
+                list[i] = list[j];
+                list[j] = aux;
+            }
+        }
+    }
+    printf("\n\n***Se ordenaron las mascotas por pais de origen alfabeticamente**");
+    system("pause");*/
+}
+
+void modificarMascota(eMascota *list, int tamList, eRaza listarRazas[], int tamRaz, int idMin, int idMax)
+{
+    int auxId;//el usuario ingresara el id, el sistema buscara el indice de él
+    int banderaId;
+    int auxIndice;
+    char confirma;
+    eMascota auxMascota;
+    printf("\n***Modificar Registro de mascota");
+    banderaId = utn_getNumero(&auxId, "\nIngrese el ID de la mascota a modificar", "error\n", idMin, idMax, 3);
+    if(banderaId==0) //es decir si obtuve un ID
+    {
+        //muestro
+        auxIndice = buscarIndiceMascotaPorId(list, tamList, auxId);
+        if(auxIndice!= -1)
+        {
+            mostrarMascota(list[auxIndice]);
+
+            utn_getChar(&confirma, "\nEs este el registro a modificar? s/n :", "\nerror\n", 'n', 's', 3);
+            if(confirma=='s')
+            {
+                printf("\nSe pediran los nuevos datos\n");
+
+                int cargoNombre = utn_getTexto(auxMascota.nombre, 51, "\ningrese nombre: ", "\nERROR\n");
+                int cargoEdad = utn_getNumero(&auxMascota.edad, "\ningrese edad: ", "\nERROR\n", 0, 99, 3);
+                int cargoSexo = utn_getChar(&auxMascota.sexo, "\nindique sexo m/f: ", "\nERROR", 'f', 'm', 3);
+                int cargoEspecie = utn_getTexto(auxMascota.especie, 10, "\nIndique uno de los siguientes: 'perro' , 'gato' o 'raro'\n", "\nERROR\n");
+                int cargoRaza = utn_getNumero(&auxMascota.idRaza, "\nIngrese id de raza 10-13: ", "\nERROR\n", 10, 20, 3);
+
+
+                if(cargoNombre==0 && cargoEdad==0 && cargoSexo==0 && cargoEspecie==0 && cargoRaza==0)
+                {
+                    list[auxIndice] = auxMascota;
+                    list[auxIndice].isEmpty = 0;
+                    //list[auxIndice].id = *nextId;
+                    //*nextId=*nextId+1;
+                }
+            }
+
+        }
+        else
+        {
+            printf("\n***Error. No se pudo obtener id");
+        }
+    }
+}

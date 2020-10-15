@@ -219,7 +219,7 @@ int utn_getNumeroFlotante(float* pResultado,
 /**
  * \brief
  * \param
- * \return
+ * \return 0 exito, -1 fallo
 *
 */
 int utn_getTexto(char* pTexto,int tamBuffer, char* mensaje, char* mensajeError)
@@ -233,7 +233,7 @@ int utn_getTexto(char* pTexto,int tamBuffer, char* mensaje, char* mensajeError)
         {
             //pTexto = buffer;//que boludo...
             strcpy(pTexto, buffer);
-            retorno = 1;
+            retorno = 0;
         }
     }
     return retorno;

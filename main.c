@@ -2,8 +2,10 @@
     1B
 8/10/2020
 **Parcial Laboratorio I-  1era parte
+
 #-Tenemos un listado de mascotas(nombre,edad,sexo{f o m},tipo{gato ,perro o raro})
 tenemos por ahora 5 mascotas ​pero tengo lugar para 10.
+
 #Tenemos un listado de razas(descripción,tamaño{chico ,mediano o grande},país de
 origen)
 listado de razas para hardcodear :
@@ -20,82 +22,136 @@ c- los demás datos de estas 5 mascotas deben ser hardcodeados por el alumno.
 *la función de listar mascota debe estar modularizada, ósea debe llamar a otras
 funciones y no realizar dos for.
 
-******************************** 2da parte DONE
-#Borrado lógico de una mascota del listado
-#-Se debe mostrar un listado de mascotas ordenadas por país de origen.
+******************************** 2da parte
+#Borrado lógico de una mascota del listado DONE
+#-Se debe mostrar un listado de mascotas ordenadas por país de origen. DONE
 
 ******************************** 3era parte
 #-Alta de mascota, se pueden cargar todos los datos y se debe mostrar el listado de
 razas disponibles, teniendo en cuenta que ya tengo 5 mascotas cargadas y que el
-máximo es 10
+máximo es 10 DONE
 #-Se debe mostrar un listado de RAZAS con las mascotas que pertenecen a esa
-raza
+raza DONE
 ******************************** 4ta parte
-#Modificación de una mascotas(todo menos el id).
-#Menú de opciones
-#-Alta de RAZA (20 razas maximo)
+#Modificación de una mascotas(todo menos el id).    DONE
+#Menú de opciones   DONE
+#-Alta de RAZA (20 razas   maximo) DONE
 #-Se debe mostrar el país de origen que tenga más mascotas en nuestra
-veterinaria.
-*/
+veterinaria. PENDIENTE
 
+******************************** 5ta parte
+excluyente :
+
+#Menú de opciones,con todas las opciones pedidas en las partes anteriores
+Se nos agregaron dos mascotas más , un dogo argentino y un pastor alemán,
+debemos hardcodear las nuevas razas. DONE
+
+Vamos a tener que realizar la estructura pais,
+con:(nombreDePais,continente,CodigoTelefonico)argentina =54 , alemania= 49,
+belgica =32, tailandia=66,persia=98. DONE
+
+se deben modificar las estructuras y las funcionalidades, DONE
+no se pueden tener campos de la versión anterior en las estructuras.
+debemos tener hardcodeado los datos de las 7 mascotas
+incluyendo los países y la relación con la raza y el atributo peso
+
+#Opción del menú Alta de RAZA:
+dar de alta una raza, mostrando el listado de países disponibles.
+
+#-Opción del menú Listar mascota con la raza y los datos del pais (nombrePais,
+CodigoTelefonico)
+
+#-Opción del menú ordenar mascotas por el Código Telefónico del país, de mayor
+a menor.
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mascotas.h"
 #include "utn.h"
-#define TAM 10 //tamanio maximo del array de mascotas
-#define TAMHARDCODEO 5//cantidad de mascotas a hardcodear
-#define TAMRAZAS 10//tamanio maximo del array de razas
-#define HARDRAZAS 5//hardcodeo de razas
-
+#include "mascotas.h"
+#define MAXMASCOTAS 10  //espacio total para nuestro array de mascotas
+#define HARDMASCOTAS 5 //las mascotas que voy a hardcodear
+#define MAXRAZAS 20     //espacio total para nuestro array de razas
+#define HARDRAZAS 5 //las razas que voy a hardcodear
+#define MAXPAISES 20
+#define HARDPAISES 5
 
 int main()
 {
-    int proximoId= 1000;
+    /*
+    eMascota listaDeMascotas[MAXMASCOTAS];
+    eRaza listaDeRazas[MAXRAZAS];
+    listado de razas para hardcodear :
+a-siames, chico,tailandia
+b- doberman ,grande,alemania
+c- persa,mediano,persia
+d-pastor belga, grande, bélgica
+    */
+
+    int proximoId= 1000;//los primeros ids son elegidos arbitrariamente
     int proximoIdRaza=10;
-    eMascota listado[TAM];
-    eRaza listadoRazas[TAMRAZAS];
+    int proximoIdPais=100;
 
-    //inicializo el array de eMascota
-    inicializarArrayMascotas(listado, TAM);
-    inicializarArrayRazas(listadoRazas, TAMRAZAS);
-    //hardcodeo arrays de mascotas y de razas
+    //declaro mis arrays de mascota y razas
+    eMascota listadoMascotas[MAXMASCOTAS];
+    eRaza listadoRazas[MAXRAZAS];
+    ePais listadoPaises[MAXPAISES];
+
+    //saludar();
+    //inicializo ambos arrays pòniendo el campo isEmpty = 1 en todos los lugares disponibles
+    inicializarArrayRazas(listadoRazas, MAXRAZAS);
+    inicializarArrayMascotas(listadoMascotas, MAXMASCOTAS);
+    inicializarArrayPaises(listadoPaises, MAXPAISES);
+    //precargo algunas razas y mascotas para comenzar a trabajar
     hardcodearRazas(listadoRazas, HARDRAZAS, &proximoIdRaza);
-    hardcodearMascotas(listado, TAMHARDCODEO, &proximoId);
-
+    hardcodearMascotas(listadoMascotas, HARDMASCOTAS, &proximoId);
+    hardcodearPaises(listadoPaises, HARDPAISES, &proximoIdPais);
 
     int salir=0;
     char confirma;
+    int opcion;
     do
     {
-        switch(menu())
+        opcion = menu();
+        switch(opcion)
         {
         case 1:
-            cargarMascota(listado, TAM, &proximoId);
+            cargarMascota(listadoMascotas, MAXMASCOTAS, &proximoId);
             break;
         case 2:
-            borrarMascotaDelListado(listado, TAM, 1000, 1000+TAM);
+            borrarMascotaDelListado(listadoMascotas, MAXMASCOTAS, 1000, 1000+MAXMASCOTAS);
             break;
         case 3:
-            //modificar
+            modificarMascota(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, 1000, proximoId);
             break;
         case 4:
-            mostrarListadoCompleto(listado, TAM, listadoRazas, TAMRAZAS);
+            mostrarListadoCompleto(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS);
+            system("pause");
             break;
         case 5:
-            ordenarPorPais(listado, TAM, listadoRazas, TAMRAZAS);
+            ordenarPorPais(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
             break;
         case 6:
-            listarRazas(listadoRazas, TAMRAZAS);
+            //printf("\nDEBUG");
+            //system("pause");
+            listarRazasConSusMascotas(listadoRazas, MAXRAZAS, listadoMascotas, MAXMASCOTAS);
             break;
         case 7:
-            agregarRaza(listadoRazas, TAMRAZAS, &proximoIdRaza);
+            //printf("\nproximo id raza %d", proximoIdRaza);system("pause");
+            agregarRaza(listadoRazas, MAXRAZAS, &proximoIdRaza, listadoPaises, MAXPAISES);
+            //printf("\nproximo id raza %d", proximoIdRaza);system("pause");
+            break;
+
+        case 8:
+            //mostrarPaisConMasMascotas
             break;
 
         case 9:
             printf("\nConfirma salir del programa? s/n: ");
-            myGets(&confirma, 1);
+
+            myGets(&confirma, 2);
+
             if(confirma=='s')
             {
                 salir =1;
