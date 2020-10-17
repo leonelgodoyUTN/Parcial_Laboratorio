@@ -56,13 +56,28 @@ debemos tener hardcodeado los datos de las 7 mascotas
 incluyendo los países y la relación con la raza y el atributo peso
 
 #Opción del menú Alta de RAZA:
-dar de alta una raza, mostrando el listado de países disponibles.
+dar de alta una raza, mostrando el listado de países disponibles. DONE
 
 #-Opción del menú Listar mascota con la raza y los datos del pais (nombrePais,
-CodigoTelefonico)
+CodigoTelefonico) DONE
 
 #-Opción del menú ordenar mascotas por el Código Telefónico del país, de mayor
 a menor.
+
+********************************6ta parte
+#-Opción Listar por TAMAÑO y PESO:
+-Sabiendo que solo hay tres tamaños(tamaño{chico ,mediano o grande}),pedir
+el ingreso al usuario de un tamaño válido y mostrar el listado de mascotas de este
+tamaño con sus países de origen peso y la suma total del peso entre estas mascotas.
+
+******************************** 7ma parte
+#Opción borrar RAZA:
+borrado en cascada de una raza, al borrar una raza , se borran todas las
+mascotas de esa raza
+#-Opción Listar por TIPO y PESO:
+Sabiendo que solo hay tres tipos de mascotas (tipo{gato ,perro o raro}),
+informar el peso total de cada tipo, la cantidad de mascotas por tipo y el promedio de
+peso por tipo.Estos tres datos en una tabla bien hecha.
 */
 
 #include <stdio.h>
@@ -126,10 +141,11 @@ d-pastor belga, grande, bélgica
             modificarMascota(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, 1000, proximoId);
             break;
         case 4:
-            mostrarListadoCompleto(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS);
+            mostrarListadoCompleto(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
             system("pause");
             break;
         case 5:
+
             ordenarPorPais(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
             break;
         case 6:
@@ -145,6 +161,7 @@ d-pastor belga, grande, bélgica
 
         case 8:
             //mostrarPaisConMasMascotas
+            mostrarPaisConMasMascotas(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
             break;
 
         case 9:
@@ -164,3 +181,4 @@ d-pastor belga, grande, bélgica
 
     return 0;
 }
+

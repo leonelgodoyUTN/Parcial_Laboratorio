@@ -169,6 +169,7 @@ int utn_getNumero(int* pResultado,
             }
         }
         printf("%s",mensajeError);
+        system("pause");
     }
     return retorno;
 }
