@@ -36,8 +36,12 @@ raza DONE
 #Modificación de una mascotas(todo menos el id).    DONE
 #Menú de opciones   DONE
 #-Alta de RAZA (20 razas   maximo) DONE
+
+
 #-Se debe mostrar el país de origen que tenga más mascotas en nuestra
 veterinaria. PENDIENTE
+
+
 
 ******************************** 5ta parte
 excluyente :
@@ -131,7 +135,7 @@ int main()
         opcion = menu();
         switch(opcion)
         {
-        case 1:
+        case 1://ALTAS
             utn_getChar(&subOpcion, "\na. alta mascota\nb. alta raza\nc. alta pais\nd. Cancelar\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
             switch(subOpcion)
             {
@@ -151,8 +155,8 @@ int main()
 
 
 
-        case 2:
-            //borrarMascotaDelListado(listadoMascotas, MAXMASCOTAS, 1000, 1000+MAXMASCOTAS);
+        case 2://BAJAS
+
             utn_getChar(&subOpcion, "\na. baja mascota\nb. baja raza\nc. baja pais\nd. Cancelar\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
             switch(subOpcion)
             {
@@ -170,37 +174,61 @@ int main()
 
 
 
-        case 3:
-            utn_getChar(&subOpcion, "\na. modif mascota\nb. modif raza\nc. modif pais\nd. Cancelar\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+        case 3: //MODIFICACIONES
+            utn_getChar(&subOpcion, "\na. modif mascota\nb. modif raza -no disp-\nc. modif pais -no disp-\nd. Cancelar\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
             switch(subOpcion)
             {
             case 'a':
-                //modificarMascota(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, 1000, proximoId);
+                modificarMascota(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, 1000, proximoId);
                 break;
-
             case 'b':
-                //modifRaza
                 printf("\nFuncion aun no programada***\n");
                 system("pause");
                 break;
-
             case 'c':
-                //modif Pais
                 printf("\nFuncion aun no programada***\n");
                 system("pause");
                 break;
             }
-
             break;
 
 
-        case 4:
-            mostrarListadoCompleto(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
+        case 4:// LISTADOS
+            system("cls");
+            printf("\n***Submenu de listados");
+            utn_getChar(&subOpcion, "\na. Listar mascotas\nb. Listar razas\nc. Listar paises\nd. Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+            switch(subOpcion)
+            {
+            case 'a':
+                listarMascotas(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXMASCOTAS, listadoPaises, MAXPAISES);
+                break;
+            case 'b':
+                listarRazas(listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
+                break;
+            case 'c':
+                listarPaises(listadoPaises, MAXPAISES);
+                break;
+            }
             system("pause");
             break;
-        case 5:
 
-            ordenarPorPais(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
+
+        case 5:
+            system("cls");
+            printf("\n***Submenu de Ordenamientos");
+
+            utn_getChar(&subOpcion, "\na.ordenar mascotas por pais\nb. b. ordenar por el codigo telefono del pais de origen de cada mascota\nc.Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+            switch(subOpcion)
+            {
+            case 'a':
+                ordenarPorPais(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
+                break;
+            case 'b':
+
+                ordenarPorCodigoTelefonico(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
+                break;
+            }
+
             break;
         case 6:
             //printf("\nDEBUG");

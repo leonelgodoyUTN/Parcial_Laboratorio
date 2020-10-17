@@ -46,7 +46,9 @@ void mostrarMascota(eMascota x);
 void mostrarMascotaConRazaYPais(eMascota x, eRaza razaRecibida, ePais paisRecibido);
 void mostrarUnaRazaConSusMascotas(eRaza x, eMascota listaMascotas[], int tamMascotas);
 
-void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPais);
+void listarMascotas(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPais);
+void listarRazas(eRaza *list, int tamRaz, ePais listaPaises[], int tamPais);
+void listarPaises(ePais *list, int tamPais);
 
 int buscarIndiceMascotaPorId(eMascota *list, int tamList, int idABuscar);
 int buscarIndiceRazaPorId(eRaza *list, int tamRaz, int idABuscar);
@@ -65,7 +67,7 @@ void altaRaza(eRaza *list, int tamRaz, int*nextId,  ePais listaPaises[], int tam
 void altaPais(ePais *list, int tamPais, int *nextid);
 
 int menu();
-void listarRazas(eRaza *list, int tamRaz, ePais listaPaises[], int tamPais);
+
 void listarRazasConSusMascotas(eRaza listaRazas[], int tamRaz, eMascota listaMascotas[], int tamMascotas);
 
 //void agregarRaza(eRaza *list, int tamRaz, int*nextId);
@@ -76,6 +78,8 @@ void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz,
 void modificarMascota(eMascota *list, int tamList, eRaza listarRazas[], int tamRaz, int idMin, int idMax);
 void mostrarPaisConMasMascotas(eMascota listaMascota[], int tamMascota, eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPais);
 void listarMascotasConRazaYDatosDelPais(eMascota listaMascotas[], int tamList,eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPais);
+
+int retornarCodigoTelefonicoDePais(ePais *list, int tamPais, int idPais);
 void ordenarPorCodigoTelefonico(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPaises);
 
 

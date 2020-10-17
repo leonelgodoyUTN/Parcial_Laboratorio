@@ -225,7 +225,7 @@ void mostrarMascotaConRazaYPais(eMascota x, eRaza razaRecibida, ePais paisRecibi
 
 
 /** \brief muestra array de eMascota recibido, con los datos del pais correspondiente */
-void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPais)
+void listarMascotas(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPais)
 {
     eRaza auxRaza;
     ePais auxPais;
@@ -244,6 +244,37 @@ void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int 
     }
 }
 
+
+void listarRazas(eRaza *list, int tamRaz, ePais listaPaises[], int tamPais)
+{
+    ePais auxPais;
+    if(list!=NULL && tamRaz>0)
+    {
+        printf("\n***Listado de razas cargadas");
+        printf("\nID Descripcion PaisOrigen Tamanio");
+        for(int i=0; i<tamRaz; i++)
+        {
+            if(list[i].isEmpty==0)//si hay un estructura de raza cargada busco su pais
+            {
+                auxPais = buscarPais(list[i].idPaisDeOrigen, listaPaises, tamPais);
+                printf("\n%d %s %s %s", list[i].id, list[i].descripcion, auxPais.nombrePais, list[i].tamanio);
+            }
+
+        }
+    }
+    printf("\n***fin de informe\n");
+    system("pause");
+}
+void listarPaises(ePais *list, int tamPais)
+{
+    for(int i=0; i<tamPais; i++)
+    {
+        if(list[i].isEmpty ==0)
+        {
+            printf("\nPais: %10s Continente:%10s IdPais:%d", list[i].nombrePais, list[i].continente, list[i].id);
+        }
+    }
+}
 int buscarIndiceMascotaPorId(eMascota *list, int tamList, int idABuscar)
 {
     int indice =-1;
@@ -505,31 +536,10 @@ int menu()
 {
     int opcion;
     system("cls");
-    utn_getNumero(&opcion, "\n**Menu de opciones***\n1-ALTAS (mascotas, paises, razas)\n2-BAJAS \n3-Modificaciones\n4-Listado completo\n5-Ordenar por pais de origen\n6-Listar razas con sus mascotoas\n7-Agregar raza\n9-SALIR\n", "\nERROR, ingrese una opcion valida\n", 1, 9,3);
+    utn_getNumero(&opcion, "\n**Menu de opciones***\n1-Altas (mascotas, paises, razas)\n2-Bajas \n3-Modificaciones\n4-Listados\n5-Aplicar ordenamientos al listado\n6-Informes\n9-SALIR\n", "\nERROR, ingrese una opcion valida\n", 1, 9,3);
     return opcion;
 }
 
-
-void listarRazas(eRaza *list, int tamRaz, ePais listaPaises[], int tamPais)
-{
-    ePais auxPais;
-    if(list!=NULL && tamRaz>0)
-    {
-        printf("\n***Listado de razas cargadas");
-        printf("\nID Descripcion PaisOrigen Tamanio");
-        for(int i=0; i<tamRaz; i++)
-        {
-            if(list[i].isEmpty==0)//si hay un estructura de raza cargada busco su pais
-            {
-                auxPais = buscarPais(list[i].idPaisDeOrigen, listaPaises, tamPais);
-                printf("\n%d %s %s %s", list[i].id, list[i].descripcion, auxPais.nombrePais, list[i].tamanio);
-            }
-
-        }
-    }
-    printf("\n***fin de informe\n");
-    system("pause");
-}
 
 void listarRazasConSusMascotas(eRaza listaRazas[], int tamRaz, eMascota listaMascotas[], int tamMascotas)
 {
@@ -790,14 +800,66 @@ void mostrarPaisConMasMascotas(eMascota listaMascota[], int tamMascota,
     }
 }
 
+int retornarCodigoTelefonicoDePais(ePais *list, int tamPais, int idPais)
+{
+    int retorno=-1;
+    for(int i=0; i<tamPais; i++)
+    {
+        if(idPais== list[i].id)
+        {
+            retorno= list[i].codigoTelefonico;
+        }
+    }
+    return retorno;
+}
 //#-Opción del menú ordenar mascotas por el Código Telefónico del país, de mayor a menor.
 
-/** \brief recibe un array de mascotas, uno de razas, otro de paises,  ordena el array de mascotas por codigo telefonico de pais
- *
+/** \brief recibe un array de mascotas, uno de razas, otro de paises,
+ ordena el array de mascotas por codigo telefonico del pais de cada mascota
  */
 void ordenarPorCodigoTelefonico(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPaises)
 {
     eMascota aux;
+    eRaza auxRazaI;
+    eRaza auxRazaJ;
+    int codigoTelefonicoI;
+    int codigoTelefonicoJ;
+
+    for(int i=0; i<tamList-1; i++)
+    {
+        if(list[i].isEmpty==0)
+        {
+            auxRazaI = buscarRaza(list[i].idRaza, listaRazas, tamRaz);
+        codigoTelefonicoI = retornarCodigoTelefonicoDePais(listaPaises, tamPaises, auxRazaI.idPaisDeOrigen);
+        //obtener telefono con  list[i].idRaza
+        //codigoTelefonicoI = retornarTelefono(listaPaises)
+        //con id raza conseguir el telefono de esa raza
+        for(int j=i+1; j<tamList-1; i++)
+        {
+            if(list[i].isEmpty==0)
+            {
+            auxRazaJ = buscarRaza(list[j].idRaza, listaRazas, tamRaz);
+            codigoTelefonicoJ = retornarCodigoTelefonicoDePais(listaPaises, tamPaises, auxRazaJ.idPaisDeOrigen);
+
+            if(codigoTelefonicoI < codigoTelefonicoJ)
+            {
+                aux = list[i];
+                list[i] = list[j];
+                list[j] = aux;
+
+            }
+            }
+
+        }
+        }
+
+    }
+
+    printf("\n\n***Se ordenaron las mascotas por codigo telefonico del pais**");
+    system("pause");
+
+    /*
+        eMascota aux;
     ePais auxPaisI;
     ePais auxPaisJ;
 
@@ -822,5 +884,5 @@ void ordenarPorCodigoTelefonico(eMascota *list, int tamList, eRaza listaRazas[],
     }
     printf("\n\n***Se ordenaron las mascotas por codigo telefonico del pais**");
     system("pause");
-
+    */
 }
