@@ -44,17 +44,32 @@ eRaza buscarRaza(int id, eRaza *list, int tamRaz);
 ePais buscarPais(int id, ePais lista[], int tamPais);
 void mostrarMascota(eMascota x);
 void mostrarMascotaConRazaYPais(eMascota x, eRaza razaRecibida, ePais paisRecibido);
+void mostrarUnaRazaConSusMascotas(eRaza x, eMascota listaMascotas[], int tamMascotas);
+
 void mostrarListadoCompleto(eMascota* list, int tamList,eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPais);
+
 int buscarIndiceMascotaPorId(eMascota *list, int tamList, int idABuscar);
-void borrarMascotaDelListado(eMascota *list, int tamList, int minId, int maxId);
-int buscarLugar(eMascota *list, int tamList);
-void cargarMascota(eMascota *list, int tamList, int* nextId);
+int buscarIndiceRazaPorId(eRaza *list, int tamRaz, int idABuscar);
+
+void bajaMascota(eMascota *list, int tamList, int minId, int maxId);
+void bajaRaza(eRaza *list, int tamRaz, int minId, int maxId, eMascota listaMascotas[], int tamMascotas);
+void bajaPais(ePais *list, int tamPais, int minId, int maxId);
+
+
+int buscarLugarEnMascotas(eMascota *list, int tamList);
+int buscarLugarEnPaises(ePais *list, int tamPais);
+int buscarLugarEnRazas(eRaza *list, int tamRaz);
+
+void altaMascota(eMascota *list, int tamList, int* nextId);
+void altaRaza(eRaza *list, int tamRaz, int*nextId,  ePais listaPaises[], int tamPaises);
+void altaPais(ePais *list, int tamPais, int *nextid);
+
 int menu();
 void listarRazas(eRaza *list, int tamRaz, ePais listaPaises[], int tamPais);
 void listarRazasConSusMascotas(eRaza listaRazas[], int tamRaz, eMascota listaMascotas[], int tamMascotas);
-int buscarLugarLibreRaza(eRaza *list, int tamRaz);
+
 //void agregarRaza(eRaza *list, int tamRaz, int*nextId);
-void agregarRaza(eRaza *list, int tamRaz, int*nextId,ePais listaPaises[], int tamPaises);
+
 int elegirPais(ePais listaPaises[], int tamPaises);
 //void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz);
 void ordenarPorPais(eMascota *list, int tamList, eRaza listaRazas[], int tamRaz, ePais listaPaises[], int tamPaises);

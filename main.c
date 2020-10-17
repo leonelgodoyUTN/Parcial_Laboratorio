@@ -83,42 +83,41 @@ peso por tipo.Estos tres datos en una tabla bien hecha.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "utn.h"
 #include "mascotas.h"
+
+#define primerIdMascotas 1000
 #define MAXMASCOTAS 10  //espacio total para nuestro array de mascotas
 #define HARDMASCOTAS 5 //las mascotas que voy a hardcodear
+
+#define primerIdRazas 10
 #define MAXRAZAS 20     //espacio total para nuestro array de razas
 #define HARDRAZAS 5 //las razas que voy a hardcodear
+
+#define primerIdPaises 100
 #define MAXPAISES 20
 #define HARDPAISES 5
 
 int main()
 {
-    /*
-    eMascota listaDeMascotas[MAXMASCOTAS];
-    eRaza listaDeRazas[MAXRAZAS];
-    listado de razas para hardcodear :
-a-siames, chico,tailandia
-b- doberman ,grande,alemania
-c- persa,mediano,persia
-d-pastor belga, grande, bélgica
-    */
+    //los primeros ids estan en #define's
+    int proximoId= primerIdMascotas;
+    int proximoIdRaza= primerIdRazas;
+    int proximoIdPais= primerIdPaises;
 
-    int proximoId= 1000;//los primeros ids son elegidos arbitrariamente
-    int proximoIdRaza=10;
-    int proximoIdPais=100;
-
-    //declaro mis arrays de mascota y razas
+    //declaro mis arrays de mascota, razas, paises
     eMascota listadoMascotas[MAXMASCOTAS];
     eRaza listadoRazas[MAXRAZAS];
     ePais listadoPaises[MAXPAISES];
 
     //saludar();
-    //inicializo ambos arrays pòniendo el campo isEmpty = 1 en todos los lugares disponibles
+    //inicializo arrays pòniendo el campo isEmpty = 1 en todos los lugares disponibles
     inicializarArrayRazas(listadoRazas, MAXRAZAS);
     inicializarArrayMascotas(listadoMascotas, MAXMASCOTAS);
     inicializarArrayPaises(listadoPaises, MAXPAISES);
-    //precargo algunas razas y mascotas para comenzar a trabajar
+
+    //hardcodeos para comenzar a trabajar
     hardcodearRazas(listadoRazas, HARDRAZAS, &proximoIdRaza);
     hardcodearMascotas(listadoMascotas, HARDMASCOTAS, &proximoId);
     hardcodearPaises(listadoPaises, HARDPAISES, &proximoIdPais);
@@ -126,20 +125,75 @@ d-pastor belga, grande, bélgica
     int salir=0;
     char confirma;
     int opcion;
+    char subOpcion;
     do
     {
         opcion = menu();
         switch(opcion)
         {
         case 1:
-            cargarMascota(listadoMascotas, MAXMASCOTAS, &proximoId);
+            utn_getChar(&subOpcion, "\na. alta mascota\nb. alta raza\nc. alta pais\nd. Cancelar\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+            switch(subOpcion)
+            {
+            case 'a':
+                altaMascota(listadoMascotas, MAXMASCOTAS, &proximoId);
+                break;
+            case 'b':
+                altaRaza(listadoRazas, MAXRAZAS, &proximoIdRaza, listadoPaises, MAXPAISES);
+                break;
+            case 'c':
+                //altaPais
+                altaPais(listadoPaises, MAXPAISES, &proximoIdPais);
+                break;
+            }
+
             break;
+
+
+
         case 2:
-            borrarMascotaDelListado(listadoMascotas, MAXMASCOTAS, 1000, 1000+MAXMASCOTAS);
+            //borrarMascotaDelListado(listadoMascotas, MAXMASCOTAS, 1000, 1000+MAXMASCOTAS);
+            utn_getChar(&subOpcion, "\na. baja mascota\nb. baja raza\nc. baja pais\nd. Cancelar\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+            switch(subOpcion)
+            {
+            case 'a':
+                bajaMascota(listadoMascotas, MAXMASCOTAS, primerIdMascotas, primerIdMascotas + HARDMASCOTAS );
+                break;
+            case 'b':
+                bajaRaza(listadoRazas, MAXRAZAS, primerIdRazas, primerIdRazas + HARDRAZAS, listadoMascotas, MAXMASCOTAS);
+                break;
+            case 'c':
+                bajaPais(listadoPaises, MAXPAISES, primerIdPaises, primerIdPaises + HARDPAISES);
+                break;
+            }
             break;
+
+
+
         case 3:
-            modificarMascota(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, 1000, proximoId);
+            utn_getChar(&subOpcion, "\na. modif mascota\nb. modif raza\nc. modif pais\nd. Cancelar\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+            switch(subOpcion)
+            {
+            case 'a':
+                //modificarMascota(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, 1000, proximoId);
+                break;
+
+            case 'b':
+                //modifRaza
+                printf("\nFuncion aun no programada***\n");
+                system("pause");
+                break;
+
+            case 'c':
+                //modif Pais
+                printf("\nFuncion aun no programada***\n");
+                system("pause");
+                break;
+            }
+
             break;
+
+
         case 4:
             mostrarListadoCompleto(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
             system("pause");
@@ -155,7 +209,7 @@ d-pastor belga, grande, bélgica
             break;
         case 7:
             //printf("\nproximo id raza %d", proximoIdRaza);system("pause");
-            agregarRaza(listadoRazas, MAXRAZAS, &proximoIdRaza, listadoPaises, MAXPAISES);
+
             //printf("\nproximo id raza %d", proximoIdRaza);system("pause");
             break;
 
