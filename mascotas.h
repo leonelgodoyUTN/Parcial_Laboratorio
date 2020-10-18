@@ -40,8 +40,9 @@ void hardcodearRazas(eRaza *list, int tamHardcodeo, int*proximoIdRaza);
 void hardcodearMascotas(eMascota* list, int tamHardcodeo, int*proximoId);
 void hardcodearPaises(ePais* list, int tamHardcodeo, int*proximoIdPais);
 
-eRaza buscarRaza(int id, eRaza *list, int tamRaz);
-ePais buscarPais(int id, ePais lista[], int tamPais);
+eRaza buscarRaza(int idRaza, eRaza *list, int tamRaz);
+ePais buscarPais(int idPais, ePais lista[], int tamPais);
+
 void mostrarMascota(eMascota x);
 void mostrarMascotaConRazaYPais(eMascota x, eRaza razaRecibida, ePais paisRecibido);
 void mostrarUnaRazaConSusMascotas(eRaza x, eMascota listaMascotas[], int tamMascotas);

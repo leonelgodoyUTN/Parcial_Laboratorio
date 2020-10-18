@@ -2,6 +2,14 @@
     1B
 8/10/2020
 **Parcial Laboratorio I-  1era parte
+PENDIENTES:
+#-Se debe mostrar el país de origen que tenga más mascotas en nuestra
+veterinaria. PENDIENTE
+#Las funciones de ordenamiento no funcionan
+
+
+
+///////////////////////////
 
 #-Tenemos un listado de mascotas(nombre,edad,sexo{f o m},tipo{gato ,perro o raro})
 tenemos por ahora 5 mascotas ​pero tengo lugar para 10.
@@ -36,12 +44,8 @@ raza DONE
 #Modificación de una mascotas(todo menos el id).    DONE
 #Menú de opciones   DONE
 #-Alta de RAZA (20 razas   maximo) DONE
-
-
 #-Se debe mostrar el país de origen que tenga más mascotas en nuestra
 veterinaria. PENDIENTE
-
-
 
 ******************************** 5ta parte
 excluyente :
@@ -77,7 +81,9 @@ tamaño con sus países de origen peso y la suma total del peso entre estas masc
 ******************************** 7ma parte
 #Opción borrar RAZA:
 borrado en cascada de una raza, al borrar una raza , se borran todas las
-mascotas de esa raza
+mascotas de esa raza DONE
+
+
 #-Opción Listar por TIPO y PESO:
 Sabiendo que solo hay tres tipos de mascotas (tipo{gato ,perro o raro}),
 informar el peso total de cada tipo, la cantidad de mascotas por tipo y el promedio de
@@ -217,10 +223,11 @@ int main()
             system("cls");
             printf("\n***Submenu de Ordenamientos");
 
-            utn_getChar(&subOpcion, "\na.ordenar mascotas por pais\nb. b. ordenar por el codigo telefono del pais de origen de cada mascota\nc.Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+            utn_getChar(&subOpcion, "\na.ordenar mascotas por pais\nb.ordenar por el codigo telefono del pais de origen de cada mascota\nc.Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
             switch(subOpcion)
             {
             case 'a':
+                printf("\nNo funciona");
                 ordenarPorPais(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
                 break;
             case 'b':
