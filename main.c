@@ -1,14 +1,13 @@
 /* Autor: Leonel Godoy
     1B
-8/10/2020
-**Parcial Laboratorio I-  1era parte
-PENDIENTES:
+Fecha de trabajo: 8/10/2020 - 5/11/2020
+**Parcial Laboratorio I
+**pulir parte 4
 
-///////////////////////////
 
+**1era parte DONE
 #-Tenemos un listado de mascotas(nombre,edad,sexo{f o m},tipo{gato ,perro o raro})
 tenemos por ahora 5 mascotas ​pero tengo lugar para 10.
-
 #Tenemos un listado de razas(descripción,tamaño{chico ,mediano o grande},país de
 origen)
 listado de razas para hardcodear :
@@ -25,27 +24,27 @@ c- los demás datos de estas 5 mascotas deben ser hardcodeados por el alumno.
 *la función de listar mascota debe estar modularizada, ósea debe llamar a otras
 funciones y no realizar dos for.
 
-******************************** 2da parte
-#Borrado lógico de una mascota del listado DONE
-#-Se debe mostrar un listado de mascotas ordenadas por país de origen. DONE
+** 2da parte DONE
+#Borrado lógico de una mascota del listado
+#-Se debe mostrar un listado de mascotas ordenadas por país de origen.
 
-******************************** 3era parte
+** 3era parte DONE
 #-Alta de mascota, se pueden cargar todos los datos y se debe mostrar el listado de
 razas disponibles, teniendo en cuenta que ya tengo 5 mascotas cargadas y que el
-máximo es 10 DONE
+máximo es 10
 #-Se debe mostrar un listado de RAZAS con las mascotas que pertenecen a esa
-raza DONE
-******************************** 4ta parte
+raza
+
+
+** 4ta parte FONE
 #Modificación de una mascotas(todo menos el id).    DONE
 #Menú de opciones   DONE
 #-Alta de RAZA (20 razas   maximo) DONE
 #-Se debe mostrar el país de origen que tenga más mascotas en nuestra
-veterinaria. PENDIENTE
+veterinaria. DONE (horrible esa funcion)
 
-******************************** 5ta parte
-excluyente :
-
-#Menú de opciones,con todas las opciones pedidas en las partes anteriores
+** 5ta parte DONE
+excluyente :#Menú de opciones,con todas las opciones pedidas en las partes anteriores
 Se nos agregaron dos mascotas más , un dogo argentino y un pastor alemán,
 debemos hardcodear las nuevas razas. DONE
 
@@ -67,7 +66,7 @@ CodigoTelefonico)
 #-Opción del menú ordenar mascotas por el Código Telefónico del país, de mayor      DONE
 a menor.
 
-********************************6ta parte
+**6ta parte DONE
 #-Opción Listar por TAMAÑO y PESO:                                                  DONE
 -Sabiendo que solo hay tres tamaños(tamaño{chico ,mediano o grande}),pedir
 el ingreso al usuario de un tamaño válido y mostrar el listado de mascotas de este
@@ -103,7 +102,7 @@ peso por tipo.Estos tres datos en una tabla bien hecha.
 
 #define primerIdPaises 100
 #define MAXPAISES 20
-#define HARDPAISES 5
+#define HARDPAISES 6
 
 #define primerIdTamanios 1
 #define MAXTAMANIOS 3
@@ -206,7 +205,7 @@ int main()
         case 4:// LISTADOS
             system("cls");
             printf("\n***Submenu de listados");
-            utn_getChar(&subOpcion, "\na. Listar mascotas\nb. Listar razas\nc. Listar paises\nd.Listar mascotas de un determinado tamanio\ne.Listar por Tipo(especie) Y peso\nf. Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'f', 3);
+            utn_getChar(&subOpcion, "\na. Listar mascotas\nb. Listar razas\nc. Listar paises\nd. Listar mascotas de un determinado tamanio\ne. Listar por Tipo(especie) Y peso\nf. Informar pais con mas mascotas\ng. Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'g', 3);
             switch(subOpcion)
             {
             case 'a':
@@ -224,6 +223,9 @@ int main()
             case 'e':
                 listarPorTipoYPeso(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS);
                 break;
+            case 'f':
+                informarPaisDeOrigenConMasMascotasEnNuestroListado(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
+                break;
             }
             system("pause");
             break;
@@ -236,7 +238,6 @@ int main()
             switch(subOpcion)
             {
             case 'a':
-                printf("\nNo funciona");
                 ordenarPorPais(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
                 break;
             case 'b':
