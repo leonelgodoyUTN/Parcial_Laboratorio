@@ -3,11 +3,6 @@
 8/10/2020
 **Parcial Laboratorio I-  1era parte
 PENDIENTES:
-#-Se debe mostrar el país de origen que tenga más mascotas en nuestra
-veterinaria. PENDIENTE
-#Las funciones de ordenamiento no funcionan
-
-
 
 ///////////////////////////
 
@@ -58,22 +53,22 @@ Vamos a tener que realizar la estructura pais,
 con:(nombreDePais,continente,CodigoTelefonico)argentina =54 , alemania= 49,
 belgica =32, tailandia=66,persia=98. DONE
 
-se deben modificar las estructuras y las funcionalidades, DONE
+se deben modificar las estructuras y las funcionalidades,                       DONE
 no se pueden tener campos de la versión anterior en las estructuras.
 debemos tener hardcodeado los datos de las 7 mascotas
 incluyendo los países y la relación con la raza y el atributo peso
 
 #Opción del menú Alta de RAZA:
-dar de alta una raza, mostrando el listado de países disponibles. DONE
+dar de alta una raza, mostrando el listado de países disponibles.                   DONE
 
-#-Opción del menú Listar mascota con la raza y los datos del pais (nombrePais,
-CodigoTelefonico) DONE
+#-Opción del menú Listar mascota con la raza y los datos del pais (nombrePais,       DONE
+CodigoTelefonico)
 
-#-Opción del menú ordenar mascotas por el Código Telefónico del país, de mayor
+#-Opción del menú ordenar mascotas por el Código Telefónico del país, de mayor      DONE
 a menor.
 
 ********************************6ta parte
-#-Opción Listar por TAMAÑO y PESO:
+#-Opción Listar por TAMAÑO y PESO:                                                  DONE
 -Sabiendo que solo hay tres tamaños(tamaño{chico ,mediano o grande}),pedir
 el ingreso al usuario de un tamaño válido y mostrar el listado de mascotas de este
 tamaño con sus países de origen peso y la suma total del peso entre estas mascotas.
@@ -81,13 +76,14 @@ tamaño con sus países de origen peso y la suma total del peso entre estas masc
 ******************************** 7ma parte
 #Opción borrar RAZA:
 borrado en cascada de una raza, al borrar una raza , se borran todas las
-mascotas de esa raza DONE
+mascotas de esa raza                                                                    DONE
 
 
-#-Opción Listar por TIPO y PESO:
+#-Opción Listar por TIPO y PESO:                        DONE
 Sabiendo que solo hay tres tipos de mascotas (tipo{gato ,perro o raro}),
 informar el peso total de cada tipo, la cantidad de mascotas por tipo y el promedio de
 peso por tipo.Estos tres datos en una tabla bien hecha.
+
 */
 
 #include <stdio.h>
@@ -109,28 +105,36 @@ peso por tipo.Estos tres datos en una tabla bien hecha.
 #define MAXPAISES 20
 #define HARDPAISES 5
 
+#define primerIdTamanios 1
+#define MAXTAMANIOS 3
+#define HARDTAMANIOS 3
+
 int main()
 {
     //los primeros ids estan en #define's
     int proximoId= primerIdMascotas;
     int proximoIdRaza= primerIdRazas;
     int proximoIdPais= primerIdPaises;
+    int proximoIdTamanio = primerIdTamanios;
 
     //declaro mis arrays de mascota, razas, paises
     eMascota listadoMascotas[MAXMASCOTAS];
     eRaza listadoRazas[MAXRAZAS];
     ePais listadoPaises[MAXPAISES];
+    eTamanio listadoTamanios[MAXTAMANIOS];
 
     //saludar();
     //inicializo arrays pòniendo el campo isEmpty = 1 en todos los lugares disponibles
     inicializarArrayRazas(listadoRazas, MAXRAZAS);
     inicializarArrayMascotas(listadoMascotas, MAXMASCOTAS);
     inicializarArrayPaises(listadoPaises, MAXPAISES);
+    inicializarArrayTamanios(listadoTamanios, MAXTAMANIOS);
 
     //hardcodeos para comenzar a trabajar
     hardcodearRazas(listadoRazas, HARDRAZAS, &proximoIdRaza);
     hardcodearMascotas(listadoMascotas, HARDMASCOTAS, &proximoId);
     hardcodearPaises(listadoPaises, HARDPAISES, &proximoIdPais);
+    hardcodearTamanios(listadoTamanios, HARDTAMANIOS, &proximoIdTamanio);
 
     int salir=0;
     char confirma;
@@ -146,10 +150,10 @@ int main()
             switch(subOpcion)
             {
             case 'a':
-                altaMascota(listadoMascotas, MAXMASCOTAS, &proximoId);
+                altaMascota(listadoMascotas, MAXMASCOTAS, &proximoId, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES, listadoTamanios, MAXTAMANIOS, primerIdRazas, primerIdRazas+HARDRAZAS);
                 break;
             case 'b':
-                altaRaza(listadoRazas, MAXRAZAS, &proximoIdRaza, listadoPaises, MAXPAISES);
+                altaRaza(listadoRazas, MAXRAZAS, &proximoIdRaza, listadoPaises, MAXPAISES, listadoTamanios, MAXTAMANIOS);
                 break;
             case 'c':
                 //altaPais
@@ -202,17 +206,23 @@ int main()
         case 4:// LISTADOS
             system("cls");
             printf("\n***Submenu de listados");
-            utn_getChar(&subOpcion, "\na. Listar mascotas\nb. Listar razas\nc. Listar paises\nd. Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
+            utn_getChar(&subOpcion, "\na. Listar mascotas\nb. Listar razas\nc. Listar paises\nd.Listar mascotas de un determinado tamanio\ne.Listar por Tipo(especie) Y peso\nf. Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'f', 3);
             switch(subOpcion)
             {
             case 'a':
                 listarMascotas(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXMASCOTAS, listadoPaises, MAXPAISES);
                 break;
             case 'b':
-                listarRazas(listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
+                listarRazas(listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES, listadoTamanios, MAXTAMANIOS);
                 break;
             case 'c':
                 listarPaises(listadoPaises, MAXPAISES);
+                break;
+            case 'd':
+                listarPorTamanioYPeso(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES, listadoTamanios, MAXTAMANIOS);
+                break;
+            case 'e':
+                listarPorTipoYPeso(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS);
                 break;
             }
             system("pause");
@@ -222,7 +232,6 @@ int main()
         case 5:
             system("cls");
             printf("\n***Submenu de Ordenamientos");
-
             utn_getChar(&subOpcion, "\na.ordenar mascotas por pais\nb.ordenar por el codigo telefono del pais de origen de cada mascota\nc.Menu aterior\nIndique opcion: ", "\nERROR\n", 'a', 'd', 3);
             switch(subOpcion)
             {
@@ -235,22 +244,6 @@ int main()
                 ordenarPorCodigoTelefonico(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
                 break;
             }
-
-            break;
-        case 6:
-            //printf("\nDEBUG");
-            //system("pause");
-            listarRazasConSusMascotas(listadoRazas, MAXRAZAS, listadoMascotas, MAXMASCOTAS);
-            break;
-        case 7:
-            //printf("\nproximo id raza %d", proximoIdRaza);system("pause");
-
-            //printf("\nproximo id raza %d", proximoIdRaza);system("pause");
-            break;
-
-        case 8:
-            //mostrarPaisConMasMascotas
-            mostrarPaisConMasMascotas(listadoMascotas, MAXMASCOTAS, listadoRazas, MAXRAZAS, listadoPaises, MAXPAISES);
             break;
 
         case 9:
